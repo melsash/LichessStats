@@ -76,12 +76,16 @@ async def callback(request: Request):
 
     pkce_store.clear()
 
-    return {
-        "message": "Успешная авторизация через Lichess",
-        "token_type": token_data["token_type"],
-        "expires_in": token_data["expires_in"],
-    }
+    
+    return RedirectResponse(url="http://localhost:5173/")
 
+   
+
+@router.get("/status")
+def auth_status():
+    if "access_token" in tokens:
+        return {"authenticated": True}
+    return {"authenticated": False}
 
 @router.post("/logout")
 def logout():
